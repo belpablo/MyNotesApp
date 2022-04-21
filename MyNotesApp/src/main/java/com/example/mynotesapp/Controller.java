@@ -12,36 +12,27 @@ import javafx.scene.control.Button;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
+// ЕДИНЫЙ КОНТРОЛЛЕР ДЛЯ ВСЕХ ОКОН ПРИЛОЖЕНИЯ
 public class Controller {
-
-    /* Мысль следующая завести столько кнопок, сколько их всего максимум бывает на странице наших заметок.
-        Всё равно на каждое новое окно создаётся новый экземпляр этого класса контроллера,
-        так что думаю можно не писать разные контроллеры для разных типов окон (стартового окна / окна заметки)
-
-     */
 
     @FXML
     private Button btn_1;
-
     @FXML
     private Button btn_2;
-
-    /*
     @FXML
-    private Button btn_2;
+    TextArea textInput;
 
+
+    // Открытие нового окна с заметкой по её номеру (input type == string)
     @FXML
-    private Button btn_3;
+    protected void openNoteByNumber(ActionEvent event) throws IOException {
 
-    ...
-
-     */
-
-    @FXML
-    protected void onTHENoteButtonClick(ActionEvent event) throws IOException {
-
-        btn_1.setText("THE Note is already open");
+        //btn_1.setText("THE Note is already open");
 
         Node node = (Node) event.getSource();
         String data = (String) node.getUserData();
@@ -52,21 +43,30 @@ public class Controller {
         stage.setWidth(640);
         stage.setHeight(360);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("empty-note-view.fxml"));
+        String noteType;
+        File file = new File("src/main/notesText/note" + value + ".txt");
+
+        if (file.createNewFile()) {
+            noteType = "new-note-view.fxml";
+        } else {
+            noteType = "existing-note-view.fxml";
+        }
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource(noteType));
+
         Scene scene = new Scene(fxmlLoader.load(), 640, 360);
         stage.setScene(scene);
         stage.show();
+
     }
 
-    // Текстового поля достаточно одного
-    @FXML
-    TextArea textArea;
 
+    // Сохраниение текста из textArea в файл
     @FXML
-    protected void savingTextFromArea(ActionEvent event) throws IOException {
+    public void savingTextFromArea(ActionEvent event) throws IOException {
 
         // Getting the text from Area
-        String text = textArea.getText();
+        String text = textInput.getText();
 
         // Getting the number of the note
         Node node = (Node) event.getSource();
@@ -74,9 +74,7 @@ public class Controller {
         int value = Integer.parseInt(data);
 
         // Creating new text file
-        File file = new File("C:\\Users\\belpa\\Documents\\NewLife_22\\Java_start\\MyNotesApp\\src\\main\\notesText\\Note" +
-                value + ".txt");
-        file.createNewFile();
+        File file = new File("src/main/notesText/note" + value + ".txt");
 
         // Writing content
         FileWriter writer = new FileWriter (file);
@@ -84,6 +82,36 @@ public class Controller {
         writer.close();
     }
 
-    public void quitFromTHENote(ActionEvent event) throws IOException{
+
+    // Вставить содержимое файла в textArea
+    @FXML
+    public void pushTextFromFile() throws IOException {
+
+        String filePath = "src/main/notesText/note1.txt";
+
+        String content = null;
+        try {
+            content = readFile(filePath, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        textInput.insertText(0, content);
+    }
+
+
+    // Закрыть окно
+    public void closeTheStage() throws IOException{
+
+        Stage stage = (Stage) btn_2.getScene().getWindow();
+        stage.close();
+    }
+
+
+    // Преобразование File в String
+    public static String readFile(String path, Charset encoding) throws IOException {
+
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded, encoding);
     }
 }

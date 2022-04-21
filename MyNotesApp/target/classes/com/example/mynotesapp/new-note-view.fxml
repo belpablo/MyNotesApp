@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" prefHeight="360.0" prefWidth="640.0" spacing="30.0"
+      xmlns="http://javafx.com/javafx/11.0.14-internal"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.mynotesapp.Controller">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <TextArea fx:id="textInput" prefHeight="200.0" prefWidth="200.0" text="Print your note here" />
+    <ButtonBar prefHeight="40.0" prefWidth="200.0">
+         <buttons>
+             <Button fx:id="btn_1" defaultButton="true" layoutX="535.0" layoutY="17.0"
+                     mnemonicParsing="false" onAction="#savingTextFromArea" text="Save" userData="1" />
+             <Button fx:id="btn_2" defaultButton="true" layoutX="535.0" layoutY="17.0"
+                     mnemonicParsing="false" onAction="#closeTheStage" text="Close" userData="1" />
+         </buttons>
+        </ButtonBar>
+</VBox>

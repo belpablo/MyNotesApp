@@ -5,20 +5,26 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<VBox alignment="CENTER" prefHeight="360.0" prefWidth="640.0" spacing="30.0"
-      xmlns="http://javafx.com/javafx/11.0.14-internal"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.mynotesapp.Controller">
+<VBox alignment="CENTER" prefHeight="360.0" prefWidth="640.0" spacing="20.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mynotesapp.Controller">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-
-    <Label text="Welcome to MyNotes Application!">
+   <Label layoutX="200.0" layoutY="113.0" text="Welcome to MyNotes Application!">
+      <font>
+         <Font name="Cambria" size="18.0" />
+      </font>
+   </Label>
+    <Label text="Now only one note avalible :(">
       <font>
          <Font name="Cambria" size="18.0" />
       </font></Label>
-    <Button defaultButton="true" onAction="#onTHENoteButtonClick" userData="1" text="Open THE Note" fx:id="btn_1" >
+    <Button fx:id="btn_1" defaultButton="true" onAction="#openNoteByNumber" text="Open the Note" userData="1">
       <font>
          <Font name="Cambria" size="18.0" />
       </font></Button>
+   <Button fx:id="btn_2" defaultButton="true" layoutX="259.0" layoutY="199.0" onAction="#closeTheStage" text="Quit the app">
+      <font>
+         <Font name="Cambria" size="18.0" />
+      </font>
+   </Button>
 </VBox>
