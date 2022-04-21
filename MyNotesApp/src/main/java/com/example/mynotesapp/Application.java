@@ -1,7 +1,14 @@
 package com.example.mynotesapp;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.Stop;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -15,12 +22,22 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
 
+        // Стартовое окно
         stage.setTitle("MyNotesApp");
-        stage.setWidth(640);
-        stage.setHeight(360);
+        stage.setWidth(1280);
+        stage.setHeight(720);
 
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("start-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 640, 360);
+        Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
+
+        // Заливка линейным градиентом заднего фона - почему-то не хочет работать
+        scene.setFill(new LinearGradient(
+                0, 0, 1, 1, true,           //sizing
+                CycleMethod.NO_CYCLE,                       //cycling
+                new Stop(0, Color.web("#81c483")),     //colors
+                new Stop(1, Color.web("#fcc200")))
+        );
+
         stage.setScene(scene);
         stage.show();
 
