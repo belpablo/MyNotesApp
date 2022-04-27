@@ -3,7 +3,8 @@ from tkinter.filedialog import askopenfilename, asksaveasfilename
 
 
 def open_file():
-    """Opening file for editing"""
+
+    """Opening file for editing using file explorer"""
 
     filepath = askopenfilename(
         filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")]
@@ -19,7 +20,8 @@ def open_file():
 
 
 def save_file():
-    """Saving file as a new file"""
+
+    """Saving file using file explorer"""
 
     filepath = asksaveasfilename(
         defaultextension="txt",
@@ -34,7 +36,30 @@ def save_file():
     window.title(f"Text Editor - {filepath}")
 
 
-def open_note():
+def error_message():
+
+        """Error message display (appears in terms of usage non-allowed symbols etc)"""
+
+        w = '600'
+        h = '400'
+
+        top = tk.Toplevel(window)
+        top.title('Error')
+        top.geometry('{}x{}'.format(w, h))
+
+        frame = tk.Frame(top)
+
+        label = tk.Label(frame, text="Error: Not allowed symbols were used")
+        button = tk.Button(frame, text="Ok", command=lambda: top.destroy())
+
+        frame.pack(expand=True)  # expand assigns additional space to the frame if the parent is expanded
+        label.pack()
+        button.pack()
+
+
+def editing_interface():
+
+    """Interface for editing notes"""
 
     global window, txt_edit, fr_buttons
 
@@ -45,6 +70,7 @@ def open_note():
 
     txt_edit = tk.Text(window)
     fr_buttons = tk.Frame(window)
+    fr_buttons.config(bg=color)
 
     btn_open = tk.Button(fr_buttons, text="Open", command=open_file)
     btn_save = tk.Button(fr_buttons, text="Save as...", command=save_file)
@@ -56,28 +82,12 @@ def open_note():
     txt_edit.grid(row=0, column=1, sticky="nsew")
 
 
-def error_message(note_num=1):
-
-    w = '600'
-    h = '400'
-
-    top = tk.Toplevel(window)
-    top.title('Note{}.txt'.format(note_num))
-    top.geometry('{}x{}'.format(w, h))
-
-    frame = tk.Frame(top)
-
-    label = tk.Label(frame, text="This is an error message")
-    button = tk.Button(frame, text="Ok")
-
-    frame.pack(expand=True)  # expand assigns additional space to the frame if the parent is expanded
-    label.pack()
-    button.pack()
-
-
 def root_window():
 
+    """Starting node of the program"""
+
     # Params:
+    global color
     color = '#4a7a8c'
     w = '700'
     h = '500'
@@ -100,7 +110,7 @@ def root_window():
     tk.Button(
         root,
         text='Exit',
-        command=lambda: window.destroy(),
+        command=lambda: root.destroy(),
         font=("Arial Bold", 14)
     ).pack(side='left', anchor='e', expand=True)
 
@@ -108,7 +118,7 @@ def root_window():
     tk.Button(
         root,
         text='Start',
-        command=lambda: open_note(),
+        command=lambda: editing_interface(),
         font=("Arial Bold", 14)
     ).pack(side='right', anchor='w', expand=True)
 
