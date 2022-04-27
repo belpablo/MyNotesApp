@@ -3,7 +3,6 @@ from tkinter.filedialog import askopenfilename, asksaveasfilename
 
 
 def open_file():
-
     """Opening file for editing"""
 
     filepath = askopenfilename(
@@ -20,7 +19,6 @@ def open_file():
 
 
 def save_file():
-
     """Saving file as a new file"""
 
     filepath = asksaveasfilename(
@@ -36,17 +34,15 @@ def save_file():
     window.title(f"Text Editor - {filepath}")
 
 
-def start_application():
+def open_note():
 
-    global window
+    global window, txt_edit, fr_buttons
+
     window = tk.Tk()
-
     window.title("MyNotes")
     window.rowconfigure(0, minsize=800, weight=1)
     window.columnconfigure(1, minsize=800, weight=1)
 
-    global txt_edit
-    global fr_buttons
     txt_edit = tk.Text(window)
     fr_buttons = tk.Frame(window)
 
@@ -59,8 +55,66 @@ def start_application():
     fr_buttons.grid(row=0, column=0, sticky="ns")
     txt_edit.grid(row=0, column=1, sticky="nsew")
 
-    window.mainloop()
+
+def error_message(note_num=1):
+
+    w = '600'
+    h = '400'
+
+    top = tk.Toplevel(window)
+    top.title('Note{}.txt'.format(note_num))
+    top.geometry('{}x{}'.format(w, h))
+
+    frame = tk.Frame(top)
+
+    label = tk.Label(frame, text="This is an error message")
+    button = tk.Button(frame, text="Ok")
+
+    frame.pack(expand=True)  # expand assigns additional space to the frame if the parent is expanded
+    label.pack()
+    button.pack()
+
+
+def root_window():
+
+    # Params:
+    color = '#4a7a8c'
+    w = '700'
+    h = '500'
+
+    # Creating new window:
+    root = tk.Tk()
+    root.title("MyNotes")
+    root.config(bg=color)
+    root.geometry('{}x{}'.format(w, h))
+
+    # Welcome message:
+    tk.Label(
+        root,
+        text="Welcome to MyNotes",
+        bg=color,
+        font=("Arial Bold", 14)
+    ).pack(anchor='center', expand=True)
+
+    # Button fir exiting the app:
+    tk.Button(
+        root,
+        text='Exit',
+        command=lambda: window.destroy(),
+        font=("Arial Bold", 14)
+    ).pack(side='left', anchor='e', expand=True)
+
+    # Button for the new note creation:
+    tk.Button(
+        root,
+        text='Create new note',
+        command=lambda: open_note(),
+        font=("Arial Bold", 14)
+    ).pack(side='right', anchor='w', expand=True)
+
+    root.mainloop()
 
 
 if __name__ == '__main__':
-    start_application()
+    # Opening the root window == starting the application
+    root_window()
