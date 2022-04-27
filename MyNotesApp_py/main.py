@@ -107,7 +107,7 @@ def root_window():
     # Button for the new note creation:
     tk.Button(
         root,
-        text='Create new note',
+        text='Start',
         command=lambda: open_note(),
         font=("Arial Bold", 14)
     ).pack(side='right', anchor='w', expand=True)
